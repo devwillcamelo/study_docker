@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  nodejs:
+      build: 
+          context: ./node
+          dockerfile: embranco
+      image: devwillcamelo/nodejs-fullcycle
+      container_name: nodejs
+      ports: 
+        - "8080:80"
+
+  nginx:
+      build: 
+          context: ./node
+          dockerfile: embranco
+      image: devwillcamelo/nginx-fullcycle
+      container_name: nginx
+      ports:
+        - "8000:8000"

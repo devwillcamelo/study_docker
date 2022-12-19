@@ -1,0 +1,222 @@
+CMD ->DIR PADRÃO DO NGINX
+
+cd /usr/share/nginx/html/
+
+CMD -> DAR UPDATE NAS IMAGENS (elas vêm por padrão menores p/ desempenho)
+
+apt-get update
+
+CMD-> INSTALAR O VIM (EDITOR DE CÓDIGO)
+
+apt-get install vim
+
+CMD -> RODAR O ARQUIVO
+
+vim index.html
+
+CMD -> O VIM VEM NO MODO LEITURA..
+
+apertar o "i" p/ poder editar
+
+CMD -> PARA SALVAR AS ALTERAÇÕES
+
+APERTAR "ESC", : w ESCRITO NA TELA -> APARECE WRITTEN -> SALVOU
+
+CMD -> PARA SAIR DO VIM
+
+:q
+
+CMD -> SAIR E SALVAR ANTERAÇÕES
+
+:wq
+
+CMD -> INSERIR ARQUIVO NO CONTAINER DO DOCKER (não se perder o arquivo do container pois está no seu pc )
+
+"criar o docker": docker run -d --name ngnix -p 8080:80 "inidicar o local": -v ~/projects/fullcycle2/docker/html/:/usr/share/nginx/html nginx
+
+comando completo->  docker run -d --name ngnix -p 8080:80 -v ~/projects/fullcycle2/docker/html/:/usr/share/nginx/html nginx
+
+"com o -V o comando cria a pasta mesmo que ela não exista"
+
+CMD -> COMANDO PARA FAZER A MESMA INSERÇÃO QUE É MAIS UTILIZADO 
+
+comando completo -> docker run -d --name ngnix -p 8080:80 --mount type=bind, source="$(pwd)"/html,target=/usr/share/nginx/html nginx
+
+DICA: pega o caminha que você já está acessando no prompt e utiliza ele (atalho)
+source="$(pwd)"
+
+"com o --mount ele não cria  a pasta"
+
+CMD -> CRIANDO UM VOLUME DENTRO DO DOCKER
+
+docker volume create "nome dele": meuvolume
+
+comando completo -> docker volume create meuvolume
+
+CMD -> OLHAR O VOLUME CRIADO
+
+docker  volume inspect "nome dele"
+
+codigo completo -> docker volume inspect meuvolume
+
+CMD -> JOGAR O VOLUME CRIADO NO NGINX
+
+"cria o container": docker run --name nginx -d "endereça o envio": --mount type=volume, source=meuvolme,target=/app nginx
+
+comando completo -> docker run --name nginx -d --mount type=volume, source=meuvolme,target=/app nginx
+
+
+CMD -> RODANDO ESSE NGINX 
+
+comando completo -> docker exec -it nginx bash
+
+CMD -> QUANDO TEMOS MUITO ARQUIVO E ESTÁ PESANDO MTO, E PERCEBEMOS QUE DEPOIS DE LIMPAR A MÁQUINA E ISSO NÃO MELHOROU RODAR ESSE CMD (limpar o que não está sendo usado)
+
+comando completo -> docker volume prune
+
+
+CMD -> SABER AS IMAGENS QUE TEM NO MEU PC
+
+docker images
+
+
+CMD -> REMOVER UMA IMAGEM
+
+docker rmi "i de imagem" "repository": php:latest "TAG da imagem"
+
+comando completo -> docker rmi php:latest
+
+
+CMD -> CRIANDO IMAGEM COM DOCKERFILE
+
+docker build "TAG": -t "Nome da imagem": william/nginx-com-vim:latest "para usar a pasta atual": .
+
+comando completo -> docker build -t william/nginx-com-vim:latest .
+
+
+
+CMD -> COPIANDO DIRETAMENTE DO VSCODE
+
+ COPY "Pasta": html "Endereço": /usr/share/nginx/html
+
+comando completo -> COPY html /usr/share/nginx/html
+
+
+CMD -> MATAR TODOS OS CONTAINERS DOCKER
+
+comando completo -> docker rm $(docker ps -a -q) -f
+
+CMD -> PARA CONSEGUIR RODAR O ARQUIVO VIA DOCKER é preciso desse comando no final do código.
+
+comando completo -> exec "$@" 
+
+
+CMD -> PARA RODAR O ARQUIVO INCLUIR NO DOCKERFILE 
+
+comando completo -> CMD  ["nginx", "-g", "daemon off;"]
+
+CMD -> CRIAR O ARQ NO DOCKER
+
+comando completo -> docker build -t devwillcamelo/nginx-fullcycle .
+
+
+CMD ->RODANDO O ARQ NO DOCKER
+
+comando completo -> docker run -d -p 8080:80 devwillcamelo/nginx-fullcycle
+
+CMD -> DAR UM PUSH NO DOCKER HUB
+
+comando completo -> docker push devwillcamelo/nginx-fullcycle
+
+
+CMD -> LISTAR NOSSA NETWORK
+
+docker network ls
+
+CMD -> REMOVER NEWTWORKS INUTILIZADAS
+
+docker network prune
+
+CMD -> OLHAR OS PORMENORES DA NETWORK
+
+docker network inpect bridge
+
+CMD -> ENTRAR DIRETO NO CONTAINER EXISTENTE
+
+docker attach "name do container"
+
+CMD -> CRIAR UMA REDE
+
+docker network create --drive bridge "name rede"
+
+CMD -> CRIANDO UM CONTAINER E INSERINDO DA REDE
+
+docker run -d -it --name ubuntu1 --network "name rede" bash
+
+CMD -> CONECTAR CONTAINERS DE FORA DE UMA REDE A ELA
+
+docker network connect "name rede" "name container"
+
+CMD -> COMANDO PARA CRIAR UM CONTAINER E COLOCAR EM DRIVE "HOST"
+
+docker run --rm -d --name nginx --network host nginx
+
+CMD -> CONECTANDO O CONTAINER DO DOCKER A UM .DOC NA MINHA MÁQUINA
+
+**no caso ele criou o container do zero para pegar alguns códigos já prontos**
+rodou -> apt-get update
+rodou -> apt-get install curl -y
+
+comando para conectar -> curl http://host.docker.internal:8000
+
+atenção a porta no final :8000
+
+CMD -> INSTALAR O ZIP CASO NECESSÁRIO
+
+apt-get install libzip-dev -y
+
+
+CMD -> RODANDO NODE 
+
+docker run -d -it -v $(pwd)/:/usr/share/nginx/node -p 8000:8000 node:15 bash
+
+
+CMD -> RODAR UM DOCKERFILE DE SUA ESCOLHA
+
+acrescentar no final do BUILD:  -f  dockerfile.prod (exemplo)
+
+
+CMD -> COLOCAR NO AR DOCKER-COMPOSE
+
+docker-compose up
+
+CMD -> DERRUBAR CONTAINERS COMPOSE DO AR
+
+docker-compose stop
+
+CMD -> SUBIR COMPOSE SEM TRAVAR O TERMINAL
+
+docker-compose up -d
+
+CMD -> 	QUANDO HOUVER MUDANÇA NO DOCKERFILE 
+
+docker-compose up -d --build
+
+CMD -> COMANDO PRA NÃO DAR RUIM O DB COM DOCKER
+
+comand: --innodb-use-native-aio=0
+
+CMD ->CRIAR A TABELA NO MYSQL
+
+create table people(id int not null auto_increment, name varchar(255), primary key(id));
+
+CMD ->
+
+CMD ->
+CMD ->
+
+CMD ->
+
+CMD ->
+
+CMD ->
